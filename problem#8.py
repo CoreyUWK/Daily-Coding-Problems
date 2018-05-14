@@ -25,31 +25,29 @@ def printTree(root, level = 0, side = "top", parent = "None"):
     if root.right is not None:
         printTree(root.right, level + 1, "right", str(root.val))
 
-
-def isUnival(node, val):
-    if node is None:
-        return False
+def numUnival_inner(root):
+    if root is None:
+        return 0, True
     
-    if node.left is None and node.right is None:
-        return True
-    elif node.left is None:
-        return False
-    elif node.right is None:
-        return False
+    countLeft, isLeftUnival = numUnival_inner(root.left)
+    countRight, isRightUnival = numUnival_inner(root.right)
+    total = countLeft + countRight
     
-    equalChildren = (val == node.left.val) and (val == node.right.val) 
-    return True if equalChildren and isUnival(node.left, val) and isUnival(node.right, val) else False
+    if isLeftUnival and isRightUnival:
+        if root.left is not None and root.left.val != root.val:
+            return total, False
+        elif root.right is not None and root.right.val != root.val:
+            return total, False
+        else:
+            return total + 1, True
+    else:
+        return total, False
     
 
 def numUnival(root):
-    if root is None:
-        return 0
+    count, _ = numUnival_inner(root)
+    return count
 
-    countLeft = numUnival(root.left)
-    countRight = numUnival(root.right)
-    
-    return 1 + countLeft + countRight if isUnival(root, root.val) else countLeft + countRight 
-    
 
 #root = Node(0, Node(1), Node(0, Node(1, Node(1), Node(1)), Node(0))) # => 5
 #root = Node(0, Node(0, Node(0), Node(0)), Node(0, Node(0), Node(0))) # => 7
