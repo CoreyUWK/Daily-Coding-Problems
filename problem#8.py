@@ -40,15 +40,12 @@ def isUnival(node, val):
     return True if equalChildren and isUnival(node.left, val) and isUnival(node.right, val) else False
     
 
-def numUnival(root, count=0):
+def numUnival(root):
     if None == root:
-        return count
-        
-    if None == root.left and None == root.right:
-        return count + 1
-    
-    countLeft = numUnival(root.left, count)
-    countRight = numUnival(root.right, count)
+        return 0
+
+    countLeft = numUnival(root.left)
+    countRight = numUnival(root.right)
     
     return 1 + countLeft + countRight if isUnival(root, root.val) else countLeft + countRight 
     
