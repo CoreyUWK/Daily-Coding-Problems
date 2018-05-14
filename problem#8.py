@@ -16,24 +16,25 @@ class Node:
         self.right = right
 
 def printTree(root, level = 0, side = "top", parent = "None"):
-    if None != root:
+    if root is not None:
         print "level:", str(level), "parent: ", parent, "side:", side, "Val:", str(root.val)
     
-    if None != root.left:
+    if root.left is not None:
         printTree(root.left, level + 1, "left", str(root.val))
     
-    if None != root.right:
+    if root.right is not None:
         printTree(root.right, level + 1, "right", str(root.val))
 
+
 def isUnival(node, val):
-    if None == node:
+    if node is None:
         return False
     
-    if None == node.left and None == node.right:
+    if node.left is None and node.right is None:
         return True
-    elif None == node.left:
+    elif node.left is None:
         return False
-    elif None == node.right:
+    elif node.right is None:
         return False
     
     equalChildren = (val == node.left.val) and (val == node.right.val) 
@@ -41,7 +42,7 @@ def isUnival(node, val):
     
 
 def numUnival(root):
-    if None == root:
+    if root is None:
         return 0
 
     countLeft = numUnival(root.left)
